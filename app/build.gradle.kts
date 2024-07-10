@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.play.services.location)
     val lifecycle_version = "2.8.1"
 // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")

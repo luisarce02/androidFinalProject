@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.finalproject.models.User
 import com.example.finalproject.repositories.UserRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
@@ -31,5 +32,13 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
                 // Handle exception
             }
         }
+    }
+
+    fun getUserId(): String? {
+        var userId: String? = null
+        runBlocking {
+            userId = repository.getUserId()
+        }
+        return userId
     }
 }

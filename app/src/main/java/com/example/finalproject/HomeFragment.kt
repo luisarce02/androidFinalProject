@@ -5,55 +5,61 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.finalproject.databinding.FragmentHomeBinding
+import com.example.finalproject.viewmodels.ContactsSharedViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+class HomeFragment : Fragment(R.layout.fragment_home) {
+    lateinit var binding: FragmentHomeBinding
+    lateinit var viewModel: ContactsSharedViewModel
+    lateinit var adapter: ContactsRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = (activity as MainActivity).contactsViewModel
+        viewModel.getAllContacts() // llamada a la api
+        setupRecyclerView()
+        setupAddButton()
+    }
+
+    private fun setupAddButton(){
+        binding.floatingActionButton2.setOnClickListener{
+            val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
+            binding.root.findNavController().navigate(direction)
+        }
+    }
+
+    private fun setupRecyclerView(){
+        adapter = ContactsRecyclerViewAdapter(listOf()) {contact ->
+            viewModel.selectContact(contact)
+            // redireccionar al Detail fragment
+            //view?.findNavController()?.navigate(R.id.action_homeFragment_to_detailFragment)
+            // esta es otra opcion para enviar parametros lo mandamos en actionhomefragmenttodetailfragment()
+            val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
+            binding.root.findNavController().navigate(direction)
+        }
+        val ownerContext = (activity as MainActivity)
+        binding.recyclerView.layoutManager = LinearLayoutManager(ownerContext, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = adapter
+
+        activity.let {// if activity != null {hacer algo}
+            viewModel.notes.observe(viewLifecycleOwner){ notes ->
+                adapter.contacts = notes
+                adapter.notifyDataSetChanged()
             }
+        }
+
+
     }
 }

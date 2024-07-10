@@ -2,18 +2,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment2">
+    app:startDestination="@id/loginFragment">
     <fragment
-        android:id="@+id/loginFragment2"
+        android:id="@+id/loginFragment"
         android:name="com.example.finalproject.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment2_to_homeFragment2"
+            android:id="@+id/action_loginFragment_to_homeFragment2"
             app:destination="@id/homeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment2"
         android:name="com.example.finalproject.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment2_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.finalproject.DetailFragment"
+        android:label="DetailFragment" >
+        <action
+            android:id="@+id/action_detailFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+    </fragment>
 </navigation>

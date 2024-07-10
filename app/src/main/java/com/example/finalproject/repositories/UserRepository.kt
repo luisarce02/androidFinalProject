@@ -24,4 +24,10 @@ class UserRepository(private val userDataStore: UserDataStore) {
             userDataStore.saveUserId(userId)
         }
     }
+
+    suspend fun getUserId(): String? {
+        return withContext(Dispatchers.IO) {
+            userDataStore.getUserId()
+        }
+    }
 }

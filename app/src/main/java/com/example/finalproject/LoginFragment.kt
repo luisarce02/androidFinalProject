@@ -44,6 +44,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateToHome() {
-        findNavController().navigate(R.id.action_loginFragment2_to_homeFragment2)
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment2)
     }
 }

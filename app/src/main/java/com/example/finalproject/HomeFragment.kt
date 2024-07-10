@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finalproject.databinding.FragmentHomeBinding
+import com.example.finalproject.factory.LoginViewModelFactory
+import com.example.finalproject.viewmodels.LoginViewModel
 import com.example.finalproject.viewmodels.NotesSharedViewModel
 
 
@@ -15,6 +18,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var binding: FragmentHomeBinding
     lateinit var viewModel: NotesSharedViewModel
     lateinit var adapter: NotesRecyclerViewAdapter
+
+    private val loginViewModel: LoginViewModel by viewModels {
+        LoginViewModelFactory((requireActivity() as MainActivity).userRepository)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +39,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.getAllNotes() // llamada a la api
         setupRecyclerView()
         setupAddButton()
+
+        binding.button3.setOnClickListener {
+            // forma tradicional
+            loginViewModel.deleteUserId()
+            binding.root.findNavController().navigate(R.id.action_homeFragment2_to_loginFragment)
+        }
     }
 
     private fun setupAddButton(){

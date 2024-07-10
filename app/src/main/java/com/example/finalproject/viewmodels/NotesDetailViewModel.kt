@@ -16,6 +16,8 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
 
     var titulo = MutableLiveData<String>()
     var body = MutableLiveData<String>()
+    var date = MutableLiveData<String>()
+    var location = MutableLiveData<String>()
     var latitud = MutableLiveData<Double>()
     var longitud = MutableLiveData<Double>()
 
@@ -32,6 +34,12 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
     fun updateTexts() {
         titulo.value = notesSharedViewModel.selectedNote?.titulo
         body.value = notesSharedViewModel.selectedNote?.body
+        date.value = notesSharedViewModel.selectedNote?.fecha
+        location.value = "${notesSharedViewModel.selectedNote?.latitud} ${notesSharedViewModel.selectedNote?.longitud}"
+    }
+
+    fun redirectToGoogleMaps() {
+
     }
 
     fun insert(note: Note) = viewModelScope.launch{

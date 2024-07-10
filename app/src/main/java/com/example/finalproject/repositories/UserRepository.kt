@@ -30,4 +30,10 @@ class UserRepository(private val userDataStore: UserDataStore) {
             userDataStore.getUserId()
         }
     }
+
+    suspend fun deleteUserId() {
+        return withContext(Dispatchers.IO) {
+            userDataStore.deleteUserId()
+        }
+    }
 }

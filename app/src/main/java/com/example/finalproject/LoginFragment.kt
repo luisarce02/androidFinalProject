@@ -28,6 +28,9 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        if (viewModel.getUserId() != null) {
+            navigateToHome()
+        }
         observeLoginResult()
 
         return binding.root

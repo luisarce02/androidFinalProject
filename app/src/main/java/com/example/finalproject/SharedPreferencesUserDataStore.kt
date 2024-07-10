@@ -23,4 +23,11 @@ class SharedPreferencesUserDataStore(context: Context) : UserDataStore {
     override fun getUserId(): String? {
         return sharedPreferences.getString(KEY_USER_ID, null)
     }
+
+    override fun deleteUserId() {
+        with(sharedPreferences.edit()) {
+            remove(KEY_USER_ID)
+            apply()
+        }
+    }
 }

@@ -41,4 +41,10 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         }
         return userId
     }
+
+    fun deleteUserId() {
+        runBlocking {
+            repository.deleteUserId()
+        }
+    }
 }

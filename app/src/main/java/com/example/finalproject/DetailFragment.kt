@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.finalproject.databinding.FragmentDetailBinding
-import com.example.finalproject.viewmodels.ContactsDetailViewModel
-import com.example.finalproject.viewmodels.ContactsSharedViewModel
+import com.example.finalproject.viewmodels.NotesDetailViewModel
+import com.example.finalproject.viewmodels.NotesSharedViewModel
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
     lateinit var binding: FragmentDetailBinding
-    lateinit var viewModel: ContactsSharedViewModel
-    lateinit var detailViewModel: ContactsDetailViewModel
+    lateinit var viewModel: NotesSharedViewModel
+    lateinit var detailViewModel: NotesDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +25,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).contactsViewModel
-        detailViewModel = (activity as MainActivity).contactsDetailViewModel
+        viewModel = (activity as MainActivity).notesSharedViewModel
+        detailViewModel = (activity as MainActivity).notesDetailViewModel
         binding.viewModel = viewModel
         binding.detailsViewModel = detailViewModel
         binding.lifecycleOwner = this

@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finalproject.databinding.FragmentHomeBinding
-import com.example.finalproject.viewmodels.ContactsSharedViewModel
+import com.example.finalproject.viewmodels.NotesSharedViewModel
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var binding: FragmentHomeBinding
-    lateinit var viewModel: ContactsSharedViewModel
-    lateinit var adapter: ContactsRecyclerViewAdapter
+    lateinit var viewModel: NotesSharedViewModel
+    lateinit var adapter: NotesRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,8 +27,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).contactsViewModel
-        viewModel.getAllContacts() // llamada a la api
+        viewModel = (activity as MainActivity).notesSharedViewModel
+        viewModel.getAllNotes() // llamada a la api
         setupRecyclerView()
         setupAddButton()
     }
@@ -41,8 +41,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupRecyclerView(){
-        adapter = ContactsRecyclerViewAdapter(listOf()) {contact ->
-            viewModel.selectContact(contact)
+        adapter = NotesRecyclerViewAdapter(listOf()) { contact ->
+            viewModel.selectNote(contact)
             // redireccionar al Detail fragment
             //view?.findNavController()?.navigate(R.id.action_homeFragment_to_detailFragment)
             // esta es otra opcion para enviar parametros lo mandamos en actionhomefragmenttodetailfragment()

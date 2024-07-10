@@ -10,21 +10,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.finalproject.databinding.FragmentDetailBinding
-import com.example.finalproject.factory.ContactDetailsViewModelFactory
-import com.example.finalproject.factory.ContactsViewModelFactory
+import com.example.finalproject.factory.NoteDetailsViewModelFactory
+import com.example.finalproject.factory.NotesViewModelFactory
 import com.example.finalproject.factory.LoginViewModelFactory
 import com.example.finalproject.repositories.UserRepository
-import com.example.finalproject.viewmodels.ContactsDetailViewModel
-import com.example.finalproject.viewmodels.ContactsSharedViewModel
+import com.example.finalproject.viewmodels.NotesDetailViewModel
+import com.example.finalproject.viewmodels.NotesSharedViewModel
 import com.example.finalproject.viewmodels.LoginViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity() {
     lateinit var userRepository: UserRepository
-    lateinit var contactsViewModel: ContactsSharedViewModel
-    lateinit var contactsDetailViewModel: ContactsDetailViewModel
+    lateinit var notesSharedViewModel: NotesSharedViewModel
+    lateinit var notesDetailViewModel: NotesDetailViewModel
     private lateinit var locationProvider: FusedLocationProviderClient
     private val permissionsRequest = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         when {
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 tryGetLastLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                // nos dieron el permiso de fine location
+                // nos dieron el permiso de coarse location
                 tryGetLastLocation()
             } else -> {
             // no location
@@ -70,12 +69,12 @@ class MainActivity : AppCompatActivity() {
             println("No User ID found")
         }
 
-        val factoryHome = ContactsViewModelFactory(applicationContext)
-        contactsViewModel = ViewModelProvider(this, factoryHome).get(ContactsSharedViewModel::class.java)
+        val factoryHome = NotesViewModelFactory(applicationContext)
+        notesSharedViewModel = ViewModelProvider(this, factoryHome).get(NotesSharedViewModel::class.java)
 
-        val detailsFactory = ContactDetailsViewModelFactory(contactsViewModel, userId)
-        contactsDetailViewModel = ViewModelProvider(this, detailsFactory).get(
-            ContactsDetailViewModel::class.java)
+        val detailsFactory = NoteDetailsViewModelFactory(notesSharedViewModel, userId)
+        notesDetailViewModel = ViewModelProvider(this, detailsFactory).get(
+            NotesDetailViewModel::class.java)
 
 
     }
@@ -90,8 +89,8 @@ class MainActivity : AppCompatActivity() {
         }
         locationProvider.lastLocation.addOnSuccessListener {location ->
             if (location != null) {
-                contactsDetailViewModel.latitud.value = location.latitude
-                contactsDetailViewModel.longitud.value = location.longitude
+                notesDetailViewModel.latitud.value = location.latitude
+                notesDetailViewModel.longitud.value = location.longitude
             }
         }
     }

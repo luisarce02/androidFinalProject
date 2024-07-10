@@ -1,25 +1,22 @@
 package com.example.finalproject.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.finalproject.models.Contact
 import com.example.finalproject.models.Note
-import com.example.finalproject.repositories.ContactsRepository
+import com.example.finalproject.repositories.NotesRepository
 import kotlinx.coroutines.launch
 
-class ContactsSharedViewModel(val repository: ContactsRepository): ViewModel() {
+class NotesSharedViewModel(val repository: NotesRepository): ViewModel() {
 
-    var selectedContact: Note? = null
+    var selectedNote: Note? = null
 
-    val contacts = repository.notes
     val notes = repository.notes
 
-    fun selectContact(note: Note) {
-        selectedContact = note
+    fun selectNote(note: Note) {
+        selectedNote = note
     }
 
-    fun getAllContacts() = viewModelScope.launch {
+    fun getAllNotes() = viewModelScope.launch {
         // aqui podriamos usar nuestros propios error codes
         repository.getAll().collect() {result ->
             if (!result) {

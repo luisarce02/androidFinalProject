@@ -7,10 +7,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.finalproject.viewmodels.ContactsSharedViewModel" />
+            type="com.example.finalproject.viewmodels.NotesSharedViewModel" />
         <variable
             name="detailsViewModel"
-            type="com.example.finalproject.viewmodels.ContactsDetailViewModel" />
+            type="com.example.finalproject.viewmodels.NotesDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,7 @@
             android:layout_marginTop="77dp"
             android:layout_marginEnd="20dp"
             android:ems="10"
-            android:hint="nter_the_contact_name"
+            android:hint="Titulo"
             android:inputType="text"
             android:text="@={detailsViewModel.titulo}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="68dp"
             android:ems="10"
-            android:hint="nter_the_contact_email"
+            android:hint="Descripción"
             android:inputType="textEmailAddress"
             android:text="@={detailsViewModel.body}"
             app:layout_constraintBottom_toTopOf="@+id/button2"
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="447dp"
-            android:text="save"
+            android:text="guardar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,11 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="404dp"
-            android:text="Delete"
+            android:text="Eliminar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/button"
             app:layout_constraintTop_toBottomOf="@+id/contactEmailText" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

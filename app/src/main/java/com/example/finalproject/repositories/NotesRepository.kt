@@ -6,7 +6,7 @@ import com.example.finalproject.room.NoteDao
 import kotlinx.coroutines.flow.flow
 
 class NotesRepository(private val noteDao: NoteDao,
-                      private val apiService: ApiService
+                      private val apiService: ApiService, private val user_id: String?
 ) {
 
     val notes = noteDao.getAllNotes()
@@ -48,7 +48,7 @@ class NotesRepository(private val noteDao: NoteDao,
 
     fun getAll() = flow {
         // if hay internet has esto
-        val result = apiService.getNotes("usuario2")
+        val result = apiService.getNotes(user_id)
         if (result.isSuccessful && result.body() != null) {
             noteDao.deleteAll()
             noteDao.insertAll(result.body()!!)

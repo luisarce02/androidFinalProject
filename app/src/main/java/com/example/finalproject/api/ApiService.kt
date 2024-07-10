@@ -17,7 +17,7 @@ interface ApiService {
     @POST("/login")
     suspend fun login(@Body user: User): Response<LoginResponse>
     @GET("/notes")
-    suspend fun getNotes(@Query("user_id") userId: String): Response<ArrayList<Note>>
+    suspend fun getNotes(@Query("user_id") userId: String?): Response<ArrayList<Note>>
     @POST("/notes")
     suspend fun postNotes(@Body note: Note): Response<String>
     @PUT("/notes")

@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             println("No User ID found")
         }
 
-        val factoryHome = NotesViewModelFactory(applicationContext)
+        val factoryHome = NotesViewModelFactory(applicationContext, userId)
         notesSharedViewModel = ViewModelProvider(this, factoryHome).get(NotesSharedViewModel::class.java)
 
         val detailsFactory = NoteDetailsViewModelFactory(notesSharedViewModel, userId)
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun tryGetLastLocation() {
+    private fun tryGetLastLocation() {
         val hasFineLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         val hasCoarseLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
         if (!hasCoarseLocation && !hasFineLocation) {

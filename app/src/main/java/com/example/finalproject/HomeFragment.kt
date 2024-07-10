@@ -1,10 +1,15 @@
 package com.example.finalproject
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,26 +59,46 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         adapter = NotesRecyclerViewAdapter(listOf()) { contact ->
             viewModel.selectNote(contact)
-            // redireccionar al Detail fragment
-            //view?.findNavController()?.navigate(R.id.action_homeFragment_to_detailFragment)
-            // esta es otra opcion para enviar parametros lo mandamos en actionhomefragmenttodetailfragment()
-            val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
-            binding.root.findNavController().navigate(direction)
+            if (isInternetAvailable(requireContext())) {
+                // Redireccionar al Detail fragment
+                val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
+                binding.root.findNavController().navigate(direction)
+            } else {
+                // Mostrar un Toast indicando que se requiere internet
+                Toast.makeText(requireContext(), "Esta función requiere internet", Toast.LENGTH_SHORT).show()
+            }
         }
         val ownerContext = (activity as MainActivity)
         binding.recyclerView.layoutManager = LinearLayoutManager(ownerContext, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
 
-        activity.let {// if activity != null {hacer algo}
-            viewModel.notes.observe(viewLifecycleOwner){ notes ->
+        activity?.let {
+            viewModel.notes.observe(viewLifecycleOwner) { notes ->
                 adapter.contacts = notes
                 adapter.notifyDataSetChanged()
             }
         }
+    }
 
-
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return when {
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
+        }
     }
 }

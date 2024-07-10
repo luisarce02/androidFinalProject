@@ -61,18 +61,10 @@ class MainActivity : AppCompatActivity() {
         val factory = LoginViewModelFactory(userRepository)
         val viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
-        // Recupera el ID del usuario
-        val userId = viewModel.getUserId()
-        if (userId != null) {
-            println("User ID: $userId")
-        } else {
-            println("No User ID found")
-        }
-
-        val factoryHome = NotesViewModelFactory(applicationContext, userId)
+        val factoryHome = NotesViewModelFactory(applicationContext, userDataStore)
         notesSharedViewModel = ViewModelProvider(this, factoryHome).get(NotesSharedViewModel::class.java)
 
-        val detailsFactory = NoteDetailsViewModelFactory(notesSharedViewModel, userId)
+        val detailsFactory = NoteDetailsViewModelFactory(notesSharedViewModel, userDataStore)
         notesDetailViewModel = ViewModelProvider(this, detailsFactory).get(
             NotesDetailViewModel::class.java)
 

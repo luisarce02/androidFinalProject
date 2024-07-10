@@ -4,13 +4,15 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.finalproject.SharedPreferencesUserDataStore
 import com.example.finalproject.models.Note
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
 
 class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
-                           val userId: String?, ): ViewModel() {
+                           val userDataStore: SharedPreferencesUserDataStore
+): ViewModel() {
     val repository = notesSharedViewModel.repository
     var isValid = MediatorLiveData<Boolean>()
 
@@ -61,11 +63,11 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
                 println(titulo.value)
                 println(latitud.value)
                 println(longitud.value)
-                println(userId)
+                println(userDataStore.getUserId())
                 println(Date.from(Instant.now()).toString())
                 println(body.value)
                 println("===================================================")
-                insert(Note("", titulo.value!!, latitud.value!!, longitud.value!!, userId, Date.from(Instant.now()).toString(), body.value!!))
+                insert(Note("", titulo.value!!, latitud.value!!, longitud.value!!, userDataStore.getUserId(), Date.from(Instant.now()).toString(), body.value!!))
                 titulo.value = ""
                 body.value = ""
             }
@@ -75,7 +77,7 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
                 notesSharedViewModel.selectedNote?.titulo = titulo.value!!
                 notesSharedViewModel.selectedNote?.latitud = latitud.value!!
                 notesSharedViewModel.selectedNote?.longitud = longitud.value!!
-                notesSharedViewModel.selectedNote?.user_id = userId
+                notesSharedViewModel.selectedNote?.user_id = userDataStore.getUserId()
                 notesSharedViewModel.selectedNote?.fecha = (Date.from(Instant.now()).toString())
                 notesSharedViewModel.selectedNote?.body = body.value!!
                 update(notesSharedViewModel.selectedNote!!)

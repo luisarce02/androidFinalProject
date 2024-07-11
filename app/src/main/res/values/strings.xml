@@ -5,4 +5,12 @@
     <string name="email">Email</string>
     <string name="contrase_a">Contraseña</string>
     <string name="login">Login</string>
+    <string name="logo_description">Logo de la aplicación</string>
+    <string name="logout">LogOut</string>
+    <string name="mis_notas">Mis Notas</string>
+    <string name="t_tulo">Título</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="guardar">Guardar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="mapa">Mapa</string>
 </resources>

@@ -41,7 +41,6 @@ class LoginFragment : Fragment() {
             if (isLoggedIn) {
                 navigateToHome()
             } else {
-                // Handle login failure if needed
             }
         }
     }

@@ -24,10 +24,8 @@ class NotesSharedViewModel(val repository: NotesRepository): ViewModel() {
     }
 
     fun getAllNotes() = viewModelScope.launch {
-        // aqui podriamos usar nuestros propios error codes
         repository.getAll().collect() {result ->
             if (!result) {
-                // mostrar mensaje de error.
             }
         }
     }

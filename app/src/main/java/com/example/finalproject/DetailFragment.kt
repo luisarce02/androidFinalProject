@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.finalproject.databinding.FragmentDetailBinding
@@ -38,13 +37,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         detailViewModel.updateTexts()
         binding.button.setOnClickListener {
             detailViewModel.save()
-            // forma tradicional
             binding.root.findNavController().navigate(R.id.action_detailFragment_to_homeFragment2)
         }
 
         binding.button2.setOnClickListener {
             detailViewModel.delete()
-            // forma tradicional
             binding.root.findNavController().navigate(R.id.action_detailFragment_to_homeFragment2)
         }
 

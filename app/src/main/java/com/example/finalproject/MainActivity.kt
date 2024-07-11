@@ -28,11 +28,9 @@ class MainActivity : AppCompatActivity() {
     private val permissionsRequest = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                // nos dieron el permiso de fine location
                 tryGetLastLocation()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                // nos dieron el permiso de coarse location
                 tryGetLastLocation()
             } else -> {
                 requestLocation()
@@ -75,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         val hasFineLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         val hasCoarseLocation = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
         if (!hasCoarseLocation && !hasFineLocation) {
-            // request permission
             permissionsRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
             return
         }

@@ -29,7 +29,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
                 }
             } catch (e: Exception) {
                 _loginResult.value = false
-                // Handle exception
             }
         }
     }

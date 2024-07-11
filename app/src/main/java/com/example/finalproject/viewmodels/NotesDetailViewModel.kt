@@ -15,7 +15,6 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
 ): ViewModel() {
     val repository = notesSharedViewModel.repository
     var isValid = MediatorLiveData<Boolean>()
-    var deleteValid = MediatorLiveData<Boolean>()
     var mapValid = MediatorLiveData<Boolean>()
     var titulo = MutableLiveData<String>()
     var body = MutableLiveData<String>()
@@ -114,8 +113,4 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
     }
 
     private fun checkIfValid() = !(titulo.value).isNullOrBlank() && !(body.value).isNullOrBlank()
-
-    private fun checkForValidDelete() = deletion.value == true
-
-    private fun checkForValidMapRedirect() = true
 }

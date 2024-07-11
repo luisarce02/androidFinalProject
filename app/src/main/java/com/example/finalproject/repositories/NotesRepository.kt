@@ -23,14 +23,11 @@ class NotesRepository(private val noteDao: NoteDao,
             val response = apiService.updateNote(note)
             if (response.isSuccessful) {
                 getAll().collect {
-                    // Maneja la respuesta de getAll aquí si es necesario
                 }
             } else {
-                // Maneja el error de la respuesta no exitosa
                 println("LASTIMOSAMENTE SALIO ERROR: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
-            // Maneja cualquier excepción que ocurra durante la solicitud de red
             println("EXCEPCIÓN DURANTE LA SOLICITUD: ${e.message}")
         }
     }
@@ -41,14 +38,11 @@ class NotesRepository(private val noteDao: NoteDao,
             val response = apiService.deleteNote(note)
             if (response.isSuccessful) {
                 getAll().collect {
-                    // Maneja la respuesta de getAll aquí si es necesario
                 }
             } else {
-                // Maneja el error de la respuesta no exitosa
                 println("LASTIMOSAMENTE SALIO ERROR: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
-            // Maneja cualquier excepción que ocurra durante la solicitud de red
             println("EXCEPCIÓN DURANTE LA SOLICITUD: ${e.message}")
         }
     }
@@ -93,14 +87,11 @@ class NotesRepository(private val noteDao: NoteDao,
             val response = apiService.postNotes(note)
             if (response.isSuccessful) {
                 getAll().collect {
-                    // Maneja la respuesta de getAll aquí si es necesario
                 }
             } else {
-                // Maneja el error de la respuesta no exitosa
                 println("LASTIMOSAMENTE SALIO ERROR: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
-            // Maneja cualquier excepción que ocurra durante la solicitud de red
             println("EXCEPCIÓN DURANTE LA SOLICITUD: ${e.message}")
         }
     }

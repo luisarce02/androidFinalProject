@@ -32,7 +32,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel = (activity as MainActivity).notesSharedViewModel
@@ -44,18 +43,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.clearSelectedNote() // Restablecer la nota seleccionada
+        viewModel.clearSelectedNote()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).notesSharedViewModel
-        viewModel.getAllNotes() // llamada a la api
+        viewModel.getAllNotes()
         setupRecyclerView()
         setupAddButton()
 
         binding.button3.setOnClickListener {
-            // forma tradicional
             loginViewModel.deleteUserId()
             binding.root.findNavController().navigate(R.id.action_homeFragment2_to_loginFragment)
         }
@@ -77,11 +75,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter = NotesRecyclerViewAdapter(listOf()) { note ->
             viewModel.selectNote(note)
             if (isInternetAvailable(requireContext())) {
-                // Redireccionar al Detail fragment
                 val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
                 binding.root.findNavController().navigate(direction)
             } else {
-                // Mostrar un Toast indicando que se requiere internet
                 Toast.makeText(requireContext(), "Esta función requiere internet", Toast.LENGTH_SHORT).show()
             }
         }

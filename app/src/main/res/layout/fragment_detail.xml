@@ -16,91 +16,111 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailFragment">
+        tools:context=".DetailFragment"
+        android:padding="16dp">
 
         <EditText
-            android:id="@+id/contactNameText"
+            android:id="@+id/noteText"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="43dp"
-            android:layout_marginTop="77dp"
-            android:layout_marginEnd="43dp"
-            android:ems="10"
-            android:hint="Titulo"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="@string/t_tulo"
             android:inputType="text"
             android:text="@={detailsViewModel.titulo}"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/contactEmailText"
+            android:id="@+id/bodyText"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="35dp"
-            android:ems="10"
-            android:hint="Descripción"
-            android:inputType="textEmailAddress"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/descripci_n"
+            android:inputType="text"
             android:text="@={detailsViewModel.body}"
-            app:layout_constraintBottom_toBottomOf="@+id/fecha"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contactNameText" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="43dp"
-            android:layout_marginTop="20dp"
-            android:text="guardar"
-            android:enabled="@{detailsViewModel.isValid}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="33dp"
-            android:text="Eliminar"
-            android:enabled="@{detailsViewModel.deletion}"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/noteText" />
 
         <TextView
             android:id="@+id/fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="227dp"
+            android:layout_marginTop="16dp"
             android:text="@{detailsViewModel.date}"
-            app:layout_constraintStart_toStartOf="@+id/contactEmailText"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bodyText" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="8dp"
             android:text="@{detailsViewModel.location}"
-            app:layout_constraintStart_toStartOf="@+id/fecha"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fecha" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="1dp"
-            android:text="Mapa"
-            android:enabled="@{detailsViewModel.mapValid}"
-            app:layout_constraintStart_toEndOf="@+id/button"
-            app:layout_constraintTop_toTopOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/guardar"
+                android:enabled="@{detailsViewModel.isValid}"
+                android:backgroundTint="@color/button_selector"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/eliminar"
+                android:enabled="@{detailsViewModel.deletion}"
+                android:backgroundTint="@color/button_selector"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/mapa"
+                android:enabled="@{detailsViewModel.mapValid}"
+                android:backgroundTint="@color/button_selector"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/button"
+                app:layout_constraintEnd_toEndOf="@id/button2"
+                app:layout_constraintTop_toBottomOf="@+id/button"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

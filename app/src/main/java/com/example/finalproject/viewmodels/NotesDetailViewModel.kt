@@ -53,7 +53,7 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
     }
 
     fun insert(note: Note) = viewModelScope.launch{
-        repository.insertToApi(note) // ahora usando el del api
+        repository.insertToApi(note)
     }
 
     fun update(note: Note) = viewModelScope.launch {
@@ -71,8 +71,8 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
                     Note(
                         id = "",
                         titulo = titulo.value!!,
-                        latitud = latitud.value ?: 0.0,
-                        longitud = longitud.value ?: 0.0,
+                        latitud = latitud.value ?: 10.0,
+                        longitud = longitud.value ?: -10.0,
                         user_id = userDataStore.getUserId(),
                         fecha = Date.from(Instant.now()).toString(),
                         body = body.value!!

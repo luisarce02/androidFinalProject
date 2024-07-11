@@ -16,21 +16,21 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/email"
             android:text="@={viewModel.username}" />
 
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/contrase_a"
             android:inputType="textPassword"
             android:text="@={viewModel.password}" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="@string/login"
             android:onClick="@{() -> viewModel.onLoginClicked()}" />
     </LinearLayout>
 </layout>

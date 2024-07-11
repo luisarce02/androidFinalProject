@@ -1,5 +1,7 @@
 package com.example.finalproject.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.models.Note
@@ -8,16 +10,17 @@ import kotlinx.coroutines.launch
 
 class NotesSharedViewModel(val repository: NotesRepository): ViewModel() {
 
-    var selectedNote: Note? = null
+    private val _selectedNote = MutableLiveData<Note?>()
+    val selectedNote: LiveData<Note?> get() = _selectedNote
 
     val notes = repository.notes
 
-    fun selectNote(note: Note) {
-        selectedNote = note
+    fun selectNote(note: Note?) {
+        _selectedNote.value = note
     }
 
     fun clearSelectedNote() {
-        selectedNote = null
+        _selectedNote.value = null
     }
 
     fun getAllNotes() = viewModelScope.launch {

@@ -16,6 +16,10 @@ class NotesSharedViewModel(val repository: NotesRepository): ViewModel() {
         selectedNote = note
     }
 
+    fun clearSelectedNote() {
+        selectedNote = null
+    }
+
     fun getAllNotes() = viewModelScope.launch {
         // aqui podriamos usar nuestros propios error codes
         repository.getAll().collect() {result ->

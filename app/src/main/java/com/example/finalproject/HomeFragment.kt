@@ -34,8 +34,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel = (activity as MainActivity).notesSharedViewModel
+
+        setupRecyclerView()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.clearSelectedNote() // Restablecer la nota seleccionada
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,15 +62,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupAddButton(){
-        binding.floatingActionButton2.setOnClickListener{
-            val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
-            binding.root.findNavController().navigate(direction)
+        if (isInternetAvailable(requireContext())) {
+            binding.floatingActionButton2.setOnClickListener{
+
+                val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
+                binding.root.findNavController().navigate(direction)
+            }
+        } else {
+            Toast.makeText(requireContext(), "Esta función requiere internet", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setupRecyclerView() {
-        adapter = NotesRecyclerViewAdapter(listOf()) { contact ->
-            viewModel.selectNote(contact)
+        adapter = NotesRecyclerViewAdapter(listOf()) { note ->
+            viewModel.selectNote(note)
             if (isInternetAvailable(requireContext())) {
                 // Redireccionar al Detail fragment
                 val direction = HomeFragmentDirections.actionHomeFragment2ToDetailFragment()
@@ -77,7 +91,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         activity?.let {
             viewModel.notes.observe(viewLifecycleOwner) { notes ->
-                adapter.contacts = notes
+                adapter.notes = notes
                 adapter.notifyDataSetChanged()
             }
         }

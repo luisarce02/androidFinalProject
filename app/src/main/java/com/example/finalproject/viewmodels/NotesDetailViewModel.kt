@@ -15,13 +15,15 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
 ): ViewModel() {
     val repository = notesSharedViewModel.repository
     var isValid = MediatorLiveData<Boolean>()
-
+    var deleteValid = MediatorLiveData<Boolean>()
+    var mapValid = MediatorLiveData<Boolean>()
     var titulo = MutableLiveData<String>()
     var body = MutableLiveData<String>()
     var date = MutableLiveData<String>()
     var location = MutableLiveData<String>()
     var latitud = MutableLiveData<Double>()
     var longitud = MutableLiveData<Double>()
+    var deletion = MutableLiveData<Boolean>()
 
 
     init {
@@ -31,17 +33,24 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
         isValid.addSource(body) {
             isValid.value = checkIfValid()
         }
+        deleteValid.addSource(deletion) {
+            deleteValid.value = checkForValidDelete()
+        }
+        mapValid.addSource(location) {
+            mapValid.value = checkForValidMapRedirect()
+        }
     }
 
     fun updateTexts() {
         titulo.value = notesSharedViewModel.selectedNote?.titulo
         body.value = notesSharedViewModel.selectedNote?.body
         date.value = notesSharedViewModel.selectedNote?.fecha
-        location.value = "${notesSharedViewModel.selectedNote?.latitud} ${notesSharedViewModel.selectedNote?.longitud}"
-    }
-
-    fun redirectToGoogleMaps() {
-
+        if (notesSharedViewModel.selectedNote?.latitud != 10.0 && notesSharedViewModel.selectedNote?.longitud != -10.0
+            && notesSharedViewModel.selectedNote?.latitud != null){
+            location.value = "${notesSharedViewModel.selectedNote?.latitud} ${notesSharedViewModel.selectedNote?.longitud}"
+        } else {
+            location.value = ""
+        }
     }
 
     fun insert(note: Note) = viewModelScope.launch{
@@ -70,13 +79,23 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
                 insert(Note("", titulo.value!!, latitud.value!!, longitud.value!!, userDataStore.getUserId(), Date.from(Instant.now()).toString(), body.value!!))
                 titulo.value = ""
                 body.value = ""
+                location.value = ""
+                notesSharedViewModel.selectedNote = null
             }
         } else {
             if (!(titulo.value).isNullOrBlank() && !(body.value).isNullOrBlank()) {
                 notesSharedViewModel.selectedNote?.id = notesSharedViewModel.selectedNote!!.id
                 notesSharedViewModel.selectedNote?.titulo = titulo.value!!
-                notesSharedViewModel.selectedNote?.latitud = latitud.value!!
-                notesSharedViewModel.selectedNote?.longitud = longitud.value!!
+                if ( notesSharedViewModel.selectedNote?.latitud != null) {
+                    notesSharedViewModel.selectedNote?.latitud = latitud.value!!
+                    notesSharedViewModel.selectedNote?.longitud = longitud.value!!
+                    notesSharedViewModel.selectedNote?.latitud = 10.0
+                    notesSharedViewModel.selectedNote?.longitud = -10.0
+                } else {
+                    notesSharedViewModel.selectedNote?.latitud = 10.0
+                    notesSharedViewModel.selectedNote?.longitud = -10.0
+                    location.value = "Dar permisos a la aplicación"
+                }
                 notesSharedViewModel.selectedNote?.user_id = userDataStore.getUserId()
                 notesSharedViewModel.selectedNote?.fecha = (Date.from(Instant.now()).toString())
                 notesSharedViewModel.selectedNote?.body = body.value!!
@@ -84,6 +103,7 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
                 notesSharedViewModel.selectedNote = null
                 titulo.value = ""
                 body.value = ""
+
             }
         }
     }
@@ -100,4 +120,11 @@ class NotesDetailViewModel(val notesSharedViewModel: NotesSharedViewModel,
 
     private fun checkIfValid() = !(titulo.value).isNullOrBlank()
             && !(body.value).isNullOrBlank()
+
+    private fun checkForValidDelete():Boolean {
+        deletion.value = notesSharedViewModel.selectedNote != null
+        return deletion.value!!
+    }
+
+    private fun checkForValidMapRedirect() = true
 }

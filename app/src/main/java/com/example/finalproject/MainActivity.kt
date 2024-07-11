@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
                 // nos dieron el permiso de coarse location
                 tryGetLastLocation()
             } else -> {
-            // no location
-            // mostrar error solicitando y pedir al usuario a settings
+                requestLocation()
         }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -85,5 +85,11 @@ class MainActivity : AppCompatActivity() {
                 notesDetailViewModel.longitud.value = location.longitude
             }
         }
+    }
+
+    private fun requestLocation() {
+        notesDetailViewModel.location.value = "Dar permisos de ubicación"
+        notesDetailViewModel.latitud.value = 10.0
+        notesDetailViewModel.longitud.value = -10.0
     }
 }

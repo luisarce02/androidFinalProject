@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.databinding.NoteCardBinding
 import com.example.finalproject.models.Note
 
-class NotesRecyclerViewAdapter(var contacts: List<Note>, val clickListener: (Note)-> Unit):
+class NotesRecyclerViewAdapter(var notes: List<Note>, val clickListener: (Note)-> Unit):
     RecyclerView.Adapter<NotesRecyclerViewAdapter.ContactViewHolder>() {
     inner class ContactViewHolder(val binding: NoteCardBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -17,15 +17,15 @@ class NotesRecyclerViewAdapter(var contacts: List<Note>, val clickListener: (Not
     }
 
     override fun getItemCount(): Int {
-        return contacts.size
+        return notes.size
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val contact = contacts[position]
-        holder.binding.note = contact
+        val note = notes[position]
+        holder.binding.note = note
 
         holder.binding.contactCard.setOnClickListener {
-            clickListener(contact)
+            clickListener(note)
         }
     }
 }
